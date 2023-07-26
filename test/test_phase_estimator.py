@@ -587,10 +587,13 @@ class TestPhaseEstimation(QiskitAlgorithmsTestCase):
         self.assertEqual(phase, expected_phase)
 
     @data(
-        ((X ^ X).to_circuit(), 0.25, IterativePhaseEstimation),
-        ((I ^ X).to_circuit(), 0.125, IterativePhaseEstimation),
-        ((X ^ X).to_circuit(), 0.25, PhaseEstimation),
-        ((I ^ X).to_circuit(), 0.125, PhaseEstimation),
+        (QuantumCircuit(2).compose(XGate(), qubits=[0]).compose(XGate(), qubits=[1]), 0.25, IterativePhaseEstimation),
+        (QuantumCircuit(2).compose(IGate(), qubits=[0]).compose(XGate(), qubits=[1]), 0.125, IterativePhaseEstimation),
+        (QuantumCircuit(2).compose(XGate(), qubits=[0]).compose(XGate(), qubits=[1]), 0.25, PhaseEstimation),
+        (QuantumCircuit(2).compose(IGate(), qubits=[0]).compose(XGate(), qubits=[1]), 0.125, PhaseEstimation),
+        # ((I ^ X).to_circuit(), 0.125, IterativePhaseEstimation),
+        # ((X ^ X).to_circuit(), 0.25, PhaseEstimation),
+        # ((I ^ X).to_circuit(), 0.125, PhaseEstimation),
     )
     @unpack
     def test_qpe_two_qubit_unitary(self, state_preparation, expected_phase, phase_estimator):
